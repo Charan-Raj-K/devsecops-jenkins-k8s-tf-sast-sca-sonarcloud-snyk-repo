@@ -16,6 +16,13 @@ pipeline {
 					sh 'mvn snyk:test -fn'
 				}
 			}
-    }		
+    }
+	stage('RunSASTUsingSNYK'){
+		steps {
+			withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
+					sh 'snyk code test'
+				}
+		}
+	}
   }
 }
