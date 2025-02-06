@@ -1,0 +1,16 @@
+1. To export the snyk results to html you need to install snyk-html, https://docs.snyk.io/snyk-cli/scan-and-maintain-projects-using-the-cli/cli-tools/snyk-to-html
+
+2. try-catch blocks are not valid directly inside the stages section in a declarative pipeline. Instead, 
+you should use the catchError block or wrap the sh steps in a script block for exception handling. 
+
+3. Additional Improvements:
+Archive Artifacts:
+
+If you want to archive the generated HTML reports, add the following step after each scan:
+
+archiveArtifacts artifacts: 'ScanResults-opensource-SCA.html', allowEmptyArchive: true
+archiveArtifacts artifacts: 'SNYK-SAST-ScanResults.html', allowEmptyArchive: true
+
+Notifications:
+You can add a post-build action to send notifications (e.g., email or Slack) if the Snyk scans fail.
+
