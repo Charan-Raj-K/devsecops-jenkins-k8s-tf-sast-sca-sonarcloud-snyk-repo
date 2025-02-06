@@ -13,14 +13,14 @@ pipeline {
 	stage('RunSCAAnalysisUsingSnyk') {
             steps {		
 				withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
-					sh 'mvn snyk:test -fn --json | snyk-to-html -o ScanResults-opensource-SCA.html'
+					sh 'mvn snyk:test --json | snyk-to-html -o ScanResults-opensource-SCA.html --fn'
 				}
 			}
     }
 	stage('RunSASTUsingSNYK'){
 		steps {
 			withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
-					sh 'snyk code test --token=$SNYK_TOKEN -fn --json | snyk-to-html -o SNYK-SAST-ScanResults.html'
+					sh 'snyk code test --json | snyk-to-html -o SNYK-SAST-ScanResults.html --fn --token=$SNYK_TOKEN'
 				}
 		}
 	}
