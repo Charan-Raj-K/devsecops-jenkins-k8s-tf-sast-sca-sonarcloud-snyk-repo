@@ -20,7 +20,7 @@ pipeline {
 	stage('RunSASTUsingSNYK'){
 		steps {
 			withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
-					sh 'snyk code test --token=$SNYK_TOKEN --json | snyk-to-html -o SNYK-SAST-ScanResults.html'
+					sh 'snyk code test --token=$SNYK_TOKEN -fn --json | snyk-to-html -o SNYK-SAST-ScanResults.html'
 				}
 		}
 	}
