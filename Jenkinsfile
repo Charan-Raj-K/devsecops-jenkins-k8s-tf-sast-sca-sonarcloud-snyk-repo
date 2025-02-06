@@ -14,7 +14,8 @@ pipeline {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                     withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
-                        sh 'mvn snyk:test --json | snyk-to-html -o ScanResults-opensource-SCA.html'
+                        //sh 'mvn snyk:test --json | snyk-to-html -o ScanResults-opensource-SCA.html'//
+                        sh 'mvn snyk:test --json-file-output=ScanResults-opensource-SCA.json | snyk-to-html -i ScanResults-opensource-SCA.json -o ScanResults-opensource-SCA.html'
                     }
                 }
                 archiveArtifacts artifacts: 'ScanResults-opensource-SCA.html', allowEmptyArchive: true
@@ -25,7 +26,8 @@ pipeline {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                     withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
-                        sh 'snyk code test --json | snyk-to-html -o SNYK-SAST-ScanResults.html --token=$SNYK_TOKEN'
+                        //sh 'snyk code test --json | snyk-to-html -o SNYK-SAST-ScanResults.html --token=$SNYK_TOKEN'//
+                        sh 'snyk code test --json-file-output=SNYK-SAST-ScanResults.json | snyk-to-html -i SNYK-SAST-ScanResults.json -o SNYK-SAST-ScanResults.html'
                     }
                 }
                 archiveArtifacts artifacts: 'SNYK-SAST-ScanResults.html', allowEmptyArchive: true
