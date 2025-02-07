@@ -22,7 +22,7 @@ pipeline {
         catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
             withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
                 // Run Snyk test and save output to a JSON file
-                sh '''
+                /*sh '''
                     echo "Running Snyk SCA Scan..."
                     snyk test --json-file-output=ScanResults-opensource-SCA.json
                     echo "Checking if JSON file was created..."
@@ -31,7 +31,12 @@ pipeline {
                     snyk-to-html -i ScanResults-opensource-SCA.json -o ScanResults-opensource-SCA.html
                     echo "Checking if HTML file was created..."
                     ls -l ScanResults-opensource-SCA.html
-                '''
+                '''*/
+                sh 'echo "Running Snyk SCA Scan..."'
+                sh 'snyk test --json | snyk-to-html -o ScanResults-opensource-SCA.html'
+                sh 'echo "SCA Scan complete..."'
+                sh 'echo "Checking if HTML file was created..."'
+                sh 'ls -l ScanResults-opensource-SCA.html'
             }
         }
         archiveArtifacts artifacts: 'ScanResults-opensource-SCA.html', allowEmptyArchive: true
@@ -43,7 +48,7 @@ pipeline {
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                     withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
                        // Run Snyk test and save output to a JSON file
-                sh '''
+                /* sh '''
                     echo "Running Snyk SAST Scan..."
                     snyk code test --json-file-output=SNYK-SAST-ScanResults.json
                     echo "Checking if JSON file was created..."
@@ -52,7 +57,13 @@ pipeline {
                     snyk-to-html -i SNYK-SAST-ScanResults.json -o SNYK-SAST-ScanResults.html
                     echo "Checking if HTML file was created..."
                     ls -l SNYK-SAST-ScanResults.html
-                '''
+                ''' */
+
+                   sh 'echo "Running Snyk SAST Scan..."'
+                   sh 'snyk code test --json | snyk-to-html -o SNYK-SAST-ScanResults.html'
+                   sh 'echo "SAST Scan complete..."'
+                   sh 'echo "Checking if HTML file was created..."'
+                   sh 'ls -l SNYK-SAST-ScanResults'     
                    }
                 }
                 archiveArtifacts artifacts: 'SNYK-SAST-ScanResults.html', allowEmptyArchive: true
