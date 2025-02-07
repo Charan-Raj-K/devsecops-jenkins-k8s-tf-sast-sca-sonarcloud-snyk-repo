@@ -33,7 +33,7 @@ pipeline {
                     ls -l ScanResults-opensource-SCA.html
                 '''*/
                 sh 'echo "Running Snyk SCA Scan..."'
-                sh 'snyk test --json | snyk-to-html -o ScanResults-opensource-SCA.html'
+                sh 'snyk test --json | snyk-to-html -o ScanResults-opensource-SCA.html -a'
                 sh 'echo "SCA Scan complete..."'
                 sh 'echo "Checking if HTML file was created..."'
                 sh 'ls -l ScanResults-opensource-SCA.html'
@@ -60,7 +60,7 @@ pipeline {
                 ''' */
 
                    sh 'echo "Running Snyk SAST Scan..."'
-                   sh 'snyk code test --json | snyk-to-html -o SNYK-SAST-ScanResults.html'
+                   sh 'snyk code test --json | snyk-to-html -o SNYK-SAST-ScanResults.html -a'
                    sh 'echo "SAST Scan complete..."'
                    sh 'echo "Checking if HTML file was created..."'
                    sh 'ls -l SNYK-SAST-ScanResults'     
