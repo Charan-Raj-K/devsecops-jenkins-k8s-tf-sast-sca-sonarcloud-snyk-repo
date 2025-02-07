@@ -58,5 +58,20 @@ pipeline {
                 archiveArtifacts artifacts: 'SNYK-SAST-ScanResults.html', allowEmptyArchive: true
             }
         }
+        /* // Running SNYK Scan using docker
+        stage('Run SCA Analysis Using Snyk') {
+    steps {
+        catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+            withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
+                sh '''
+                    docker run --rm -v $(pwd):/app -e SNYK_TOKEN=$SNYK_TOKEN snyk/snyk:cli test --json-file-output=/app/ScanResults-opensource-SCA.json
+                    docker run --rm -v $(pwd):/app snyk/snyk-to-html -i /app/ScanResults-opensource-SCA.json -o /app/ScanResults-opensource-SCA.html
+                '''
+            }
+        }
+        archiveArtifacts artifacts: 'ScanResults-opensource-SCA.html', allowEmptyArchive: true
+    }
+      }*/
+        
     }
 }
