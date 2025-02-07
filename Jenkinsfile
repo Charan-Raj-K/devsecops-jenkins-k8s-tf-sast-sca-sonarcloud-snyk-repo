@@ -63,7 +63,7 @@ pipeline {
                    sh 'snyk code test --json | snyk-to-html -o SNYK-SAST-ScanResults.html -a'
                    sh 'echo "SAST Scan complete..."'
                    sh 'echo "Checking if HTML file was created..."'
-                   sh 'ls -l SNYK-SAST-ScanResults'     
+                   sh 'ls -l SNYK-SAST-ScanResults.html'     
                    }
                 }
                 archiveArtifacts artifacts: 'SNYK-SAST-ScanResults.html', allowEmptyArchive: true
