@@ -14,3 +14,20 @@ archiveArtifacts artifacts: 'SNYK-SAST-ScanResults.html', allowEmptyArchive: tru
 Notifications:
 You can add a post-build action to send notifications (e.g., email or Slack) if the Snyk scans fail.
 
+
+SNYK Docker explanation
+Details:
+
+docker run: Runs a Docker container.
+
+--rm: Automatically removes the container after the command finishes.
+
+-v $(pwd):/app: Mounts the current Jenkins workspace directory ($(pwd)) to the /app directory inside the container.
+
+-e SNYK_TOKEN=$SNYK_TOKEN: Passes the SNYK_TOKEN environment variable to the container.
+
+snyk/snyk:cli: Uses the official Snyk CLI Docker image.
+
+test: Runs the Snyk test command to scan for vulnerabilities.
+
+--json-file-output=/app/ScanResults-opensource-SCA.json: Saves the scan results in JSON format to /app/ScanResults-opensource-SCA.json (which maps to the Jenkins workspace).
