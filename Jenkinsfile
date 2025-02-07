@@ -10,13 +10,20 @@ pipeline {
             }
         }
 
+        // Build the project using Maven
+        stage('Build with Maven') {
+            steps {
+                sh 'mvn clean package' 
+            }
+        }
+
         stage('Run SCA Analysis Using Snyk') {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                     withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
                         // Run Snyk test and save output to a JSON file
                 sh '''
-                    mvn snyk:test --json > ScanResults-opensource-SCA.json
+                    snyk test --json > ScanResults-opensource-SCA.json
                     snyk-to-html -i ScanResults-opensource-SCA.json -o ScanResults-opensource-SCA.html
                 '''
                     }
