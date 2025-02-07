@@ -23,7 +23,7 @@ pipeline {
                     withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
                         // Run Snyk test and save output to a JSON file
                 sh '''
-                    snyk test --json > ScanResults-opensource-SCA.json
+                    snyk test --json-file-output=ScanResults-opensource-SCA.json
                     snyk-to-html -i ScanResults-opensource-SCA.json -o ScanResults-opensource-SCA.html
                 '''
                     }
@@ -38,7 +38,7 @@ pipeline {
                     withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
                        // Run Snyk test and save output to a JSON file
                 sh '''
-                    snyk code test --json > SNYK-SAST-ScanResults.json
+                    snyk code test --json-file-output=SNYK-SAST-ScanResults.json
                     snyk-to-html -i SNYK-SAST-ScanResults.json -o SNYK-SAST-ScanResults.html
                 '''
                     
